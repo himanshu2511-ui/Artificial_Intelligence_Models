@@ -1,0 +1,52 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, classification_report, roc_auc_score, roc_curve
+# Load a dataset (replace 'your_dataset.csv' with your dataset)
+df = pd.read_csv('your_dataset.csv')
+
+# Explore the dataset
+print(df.head())
+print(df.info())
+# Visualize the distribution of target variable and features
+sns.countplot(x='target_column', data=df)
+plt.show()
+
+# Explore relationships between features and the target variable
+sns.pairplot(df, hue='target_column')
+plt.show()
+# Based on EDA, select relevant features for classification
+X = df[['feature1', 'feature2', ...]]
+y = df['target_column']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Standardize the features
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# Build and train the logistic regression model
+model = LogisticRegression()
+model.fit(X_train_scaled, y_train)
+# Make predictions on the test set
+y_pred = model.predict(X_test_scaled)
+
+# Evaluate the model
+conf_matrix = confusion_matrix(y_test, y_pred)
+class_report = classification_report(y_test, y_pred)
+roc_auc = roc_auc_score(y_test, model.predict_proba(X_test_scaled)[:, 1])
+
+print("Confusion Matrix:\n", conf_matrix)
+print("\nClassification Report:\n", class_report)
+print(f'\nROC AUC Score: {roc_auc}')
+fpr, tpr, _ = roc_curve(y_test, model.predict_proba(X_test_scaled)[:, 1])
+plt.plot(fpr, tpr, label='Logistic Regression')
+plt.plot([0, 1], [0, 1], linestyle='--', color='grey', label='Random')
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('ROC Curve')
+plt.legend()
+plt.show()
