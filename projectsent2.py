@@ -6,7 +6,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 analyzer = SentimentIntensityAnalyzer()
 
 # Streamlit app configuration
-st.set_page_config(page_title="Sentiment Classifier", page_icon="😊")
+st.set_page_config(page_title="Sentiment Classifier model by H.Kashyap")
 
 # Title and description
 st.title("Sentiment Classifier ")
