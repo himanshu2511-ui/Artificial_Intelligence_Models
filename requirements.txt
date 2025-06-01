@@ -1,2 +1,3 @@
 matplotlib
 vaderSentiment
+pandas scikit-learn nltk numpy
